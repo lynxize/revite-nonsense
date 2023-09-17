@@ -7,10 +7,9 @@ export default class Nonsense {
 
     // note: actual configuration settings are in Settings
     // this exists mostly just as access for pk stuff:tm:
-
     pluralkit: PKAPI;
     lastPkMemberId: string | undefined;
-    // todo: replace with an actual cache
+    // todo: replace with an actual expiring cache
     pkMemberCache: Map<string, Member>;
     pkSystemCache: Map<string, System>;
 
@@ -21,28 +20,39 @@ export default class Nonsense {
         this.pkSystemCache = new Map<string, System>();
     }
 
-    async getPkMember(id: string): Promise<Member> {
+    async getPkMember(id: string): Promise<Member | undefined> {
         if (this.pkMemberCache.has(id)) {
             return this.pkMemberCache.get(id)!;
         }
-
-        const member = this.pluralkit.getMember({member: id});
-        this.pkMemberCache.set(id, await member);
-        return member;
+        try {
+            const member = this.pluralkit.getMember({member: id});
+            this.pkMemberCache.set(id, await member);
+            return member;
+        }
+        catch (e) {
+            console.error(e);
+            return undefined;
+        }
     }
 
-    async getPkSystem(id: string): Promise<System> {
+    async getPkSystem(id: string): Promise<System | undefined> {
         if (!this.pkSystemCache.has(id)) {
-            const system = await this.pluralkit.getSystem({system:id});
+            try {
+                const system = await this.pluralkit.getSystem({
+                    system: id,
+                    fetch: ["members"]
+                });
 
-            // ensure system has members, sometimes it won't, but we need
-            // to be able to iterate over them, so fetch them manually
-            system.members = await this.pluralkit.getMembers({system:id});
-            for (const [id, member] of system.members) {
-                this.pkMemberCache.set(id, member);
+                for (const [id, member] of system.members!) {
+                    this.pkMemberCache.set(id, member);
+                }
+
+                this.pkSystemCache.set(id, system);
             }
-
-            this.pkSystemCache.set(id, system);
+            catch (e) {
+                console.error(e)
+                return undefined
+            }
         }
         return this.pkSystemCache.get(id)!;
     }
@@ -57,10 +67,10 @@ export default class Nonsense {
         }
 
         const systemId = this.state.settings.get("nonsense:system:id")!;
-        const system = await this.getPkSystem(systemId)!;
+        const system = await this.getPkSystem(systemId);
 
-        for (const memberId of system.members!.keys()) {
-            const member = await this.getPkMember(memberId);
+        for (const memberId of system!.members!.keys()) {
+            const member = (await this.getPkMember(memberId))!;
             const c = this.matchesTag(content, member.proxy_tags);
             if (c !== undefined) {
                 this.lastPkMemberId = member.id;
@@ -75,7 +85,7 @@ export default class Nonsense {
         const latch = this.state.settings.get("nonsense:proxy:latch");
         const front = this.state.settings.get("nonsense:proxy:front");
         if (latch && !front && this.lastPkMemberId !== undefined) {
-            const member = await this.getPkMember(this.lastPkMemberId);
+            const member = (await this.getPkMember(this.lastPkMemberId))!;
             {
                 return [{
                     name: member.name,
@@ -89,7 +99,7 @@ export default class Nonsense {
             // manually get the system, because who knows how old the cache is
             // todo: remove this once we have an expiring cache
             const sw = await this.pluralkit.getFronters({system: systemId});
-            console.log(sw)
+
             // I'm new to TypeScript, but even so, this feels bad.
             // todo: cleanup
             let mem: Member | undefined;
@@ -98,6 +108,7 @@ export default class Nonsense {
             } else {
                 mem = await this.getPkMember((sw.members as string[])[0]);
             }
+
             if (mem !== undefined) {
                 return [{
                     name: mem.name,

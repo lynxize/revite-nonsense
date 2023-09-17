@@ -338,6 +338,8 @@ export default observer(() => {
                             API: {client.configuration?.revolt ?? "N/A"}
                         </span>
                         <span>revolt.js: {LIBRARY_VERSION}</span>
+                        <span>MODIFIED VERSION</span>
+                        <span>DO NOT REPORT BUGS TO REVOLT</span>
                     </div>
                 </>
             }
