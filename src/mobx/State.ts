@@ -23,6 +23,7 @@ import Plugins from "./stores/Plugins";
 import ServerConfig from "./stores/ServerConfig";
 import Settings from "./stores/Settings";
 import Sync, { Data as DataSync, SyncKeys } from "./stores/Sync";
+import {Member, PKAPI, System} from "pkapi.js";
 
 export const MIGRATIONS = {
     REDUX: 1640305719826,
@@ -53,6 +54,16 @@ export default class State {
     private persistent: [string, Persistent<unknown>][] = [];
     private disabled: Set<string> = new Set();
 
+
+    // todo: move these elsewhere, they don't belong here
+    // really need to find a better place
+    pluralkit: PKAPI;
+    lastPkMemberId: string | undefined;
+    // todo: replace with an actual cache
+    pkMemberCache: Map<string, Member>;
+    pkSystemCache: Map<string, System>;
+
+
     /**
      * Construct new State.
      */
@@ -70,6 +81,10 @@ export default class State {
         this.sync = new Sync(this);
         this.plugins = new Plugins(this);
         this.ordering = new Ordering(this);
+
+        this.pluralkit = new PKAPI();
+        this.pkMemberCache = new Map<string, Member>();
+        this.pkSystemCache = new Map<string, System>();
 
         makeAutoObservable(this);
 
@@ -113,6 +128,17 @@ export default class State {
                 }
             }
         }
+    }
+
+    // todo: move elsewhere, it doesn't belong here
+    async getPkMember(id: string): Promise<Member> {
+        if (this.pkMemberCache.has(id)) {
+            return this.pkMemberCache.get(id)!;
+        }
+
+        const member = this.pluralkit.getMember({member: id});
+        this.pkMemberCache.set(id, await member);
+        return member;
     }
 
     /**

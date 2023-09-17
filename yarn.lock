@@ -3058,6 +3058,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vvo/tzdb@npm:^6.7.0":
+  version: 6.108.0
+  resolution: "@vvo/tzdb@npm:6.108.0"
+  checksum: ff166bb3ed11a9043f5a316460dc7726f1ff171b5b83a97db64b07b2d4fdfe66248db03d8bba8904f0e07afad8e39c73d0bdc357a36afcf5c19b11e8dcfeb1e5
+  languageName: node
+  linkType: hard
+
 "abbrev@npm:1":
   version: 1.1.1
   resolution: "abbrev@npm:1.1.1"
@@ -3306,7 +3313,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^0.21.4":
+"axios@npm:^0.21.1, axios@npm:^0.21.4":
   version: 0.21.4
   resolution: "axios@npm:0.21.4"
   dependencies:
@@ -3665,6 +3672,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chrono-node@npm:^2.4.2":
+  version: 2.7.0
+  resolution: "chrono-node@npm:2.7.0"
+  dependencies:
+    dayjs: ^1.10.0
+  checksum: e4793cc6145cff9ec05ef6a975c75a951830fbcc9b6fa49e95259d68a40662b43b9929473503b4d8de57d9eb68059ad7a9be2067ff3806e2c312e1319664fb00
+  languageName: node
+  linkType: hard
+
 "classnames@npm:^2.3.1":
   version: 2.3.1
   resolution: "classnames@npm:2.3.1"
@@ -3759,6 +3775,7 @@ __metadata:
     mediasoup-client: "npm:@insertish/mediasoup-client@3.6.36-esnext"
     mobx: ^6.6.0
     mobx-react-lite: 3.4.0
+    pkapi.js: ^6.0.0
     preact: ^10.5.14
     preact-context-menu: 0.4.1
     preact-i18n: ^2.4.0-preactx
@@ -4048,6 +4065,13 @@ __metadata:
   version: 3.0.8
   resolution: "csstype@npm:3.0.8"
   checksum: 5939a003858a31a32cbc52a8f45496aa0c2bcb4629b21c5bc14a7ddcac1a3d4adfd655f56843dc14940f60563378e9444af2c9c373b3f212601b9eeb6740b8db
+  languageName: node
+  linkType: hard
+
+"dayjs@npm:^1.10.0":
+  version: 1.11.9
+  resolution: "dayjs@npm:1.11.9"
+  checksum: a4844d83dc87f921348bb9b1b93af851c51e6f71fa259604809cfe1b49d1230e6b0212dab44d1cb01994c096ad3a77ea1cf18fa55154da6efcc9d3610526ac38
   languageName: node
   linkType: hard
 
@@ -7419,6 +7443,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pkapi.js@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "pkapi.js@npm:6.0.0"
+  dependencies:
+    "@vvo/tzdb": ^6.7.0
+    axios: ^0.21.1
+    chrono-node: ^2.4.2
+    tinycolor2: ^1.4.2
+    valid-url: ^1.0.9
+  checksum: 2cdebfc8065fc509d186bd7835be9f60d722bf6436edc6c57e1a53ad4d36e25da15ef894b2d0040df933456c124e37c14733b2e2ef6df2370f2b451622496c66
+  languageName: node
+  linkType: hard
+
 "postcss-value-parser@npm:^4.0.2":
   version: 4.1.0
   resolution: "postcss-value-parser@npm:4.1.0"
@@ -8929,6 +8966,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tinycolor2@npm:^1.4.2":
+  version: 1.6.0
+  resolution: "tinycolor2@npm:1.6.0"
+  checksum: 6df4d07fceeedc0a878d7bac47e2cd47c1ceeb1078340a9eb8a295bc0651e17c750f73d47b3028d829f30b85c15e0572c0fd4142083e4c21a30a597e47f47230
+  languageName: node
+  linkType: hard
+
 "tinydate@npm:^1.0.0":
   version: 1.3.0
   resolution: "tinydate@npm:1.3.0"
@@ -9385,6 +9429,13 @@ __metadata:
   version: 2.3.0
   resolution: "v8-compile-cache@npm:2.3.0"
   checksum: adb0a271eaa2297f2f4c536acbfee872d0dd26ec2d76f66921aa7fc437319132773483344207bdbeee169225f4739016d8d2dbf0553913a52bb34da6d0334f8e
+  languageName: node
+  linkType: hard
+
+"valid-url@npm:^1.0.9":
+  version: 1.0.9
+  resolution: "valid-url@npm:1.0.9"
+  checksum: 3ecb030559404441c2cf104cbabab8770efb0f36d117db03d1081052ef133015a68806148ce954bb4dd0b5c42c14b709a88783c93d66b0916cb67ba771c98702
   languageName: node
   linkType: hard
 
