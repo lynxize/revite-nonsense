@@ -30,6 +30,10 @@ export interface ISettings {
     "appearance:theme:monoFont": MonospaceFonts;
     "appearance:theme:css": string;
 
+    "nonsense:enabled": boolean;
+    "nonsense:latch": boolean;
+    "nonsense:systemid": string;
+
     "security:trustedOrigins": string[];
 }
 

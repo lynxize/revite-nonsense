@@ -10,6 +10,7 @@ export type Modal = {
               | "create_server"
               | "custom_status"
               | "modify_displayname"
+              | "modify_pkid"
               | "add_friend";
       }
     | ({

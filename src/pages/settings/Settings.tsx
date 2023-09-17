@@ -19,6 +19,7 @@ import {
     Plug,
     Bot,
     Trash,
+    Book,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Route, Switch, useHistory } from "react-router-dom";
@@ -59,6 +60,7 @@ import { PluginsPage } from "./panes/Plugins";
 import { Profile } from "./panes/Profile";
 import { Sessions } from "./panes/Sessions";
 import { Sync } from "./panes/Sync";
+import { Nonsense } from "./panes/Nonsense";
 
 const AccountHeader = styled.div`
     display: flex;
@@ -201,6 +203,11 @@ export default observer(() => {
                     title: <Text id="app.settings.pages.experiments.title" />,
                 },
                 {
+                    id: "nonsense",
+                    icon: <Book size={20} />,
+                    title: "Nonsense",
+                },
+                {
                     divider: true,
                     category: "revolt",
                     id: "bots",
@@ -234,6 +241,9 @@ export default observer(() => {
                     </Route>
                     <Route path="/settings/notifications">
                         <Notifications />
+                    </Route>
+                    <Route path="/settings/nonsense">
+                        <Nonsense />
                     </Route>
                     <Route path="/settings/language">
                         <Languages />
