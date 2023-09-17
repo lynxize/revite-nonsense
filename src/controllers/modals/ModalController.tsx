@@ -41,6 +41,7 @@ import MFAFlow from "./components/MFAFlow";
 import MFARecovery from "./components/MFARecovery";
 import ModifyAccount from "./components/ModifyAccount";
 import ModifyDisplayname from "./components/ModifyDisplayname";
+import Notify from "./components/Notify";
 import OutOfDate from "./components/OutOfDate";
 import PendingFriendRequests from "./components/PendingFriendRequests";
 import ReportContent from "./components/Report";
@@ -285,6 +286,7 @@ export const modalController = new ModalControllerExtended({
     mfa_enable_totp: MFAEnableTOTP,
     modify_account: ModifyAccount,
     modify_pkid: ModifyPluralkitId,
+    notify: Notify,
     onboarding: OnboardingModal,
     out_of_date: OutOfDate,
     pending_friend_requests: PendingFriendRequests,

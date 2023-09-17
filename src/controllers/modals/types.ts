@@ -59,6 +59,11 @@ export type Modal = {
           error: string;
       }
     | {
+        type: "notify";
+        title: string;
+        content: string;
+    }
+    | {
           type: "clipboard";
           text: string;
       }
