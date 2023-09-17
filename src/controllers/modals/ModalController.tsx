@@ -55,7 +55,7 @@ import UserPicker from "./components/UserPicker";
 import { OnboardingModal } from "./components/legacy/Onboarding";
 import { UserProfile } from "./components/legacy/UserProfile";
 import { Modal } from "./types";
-import ModifyPluralkitId from "./components/ModifyPluralkitId";
+import ModifyPluralkitSystem from "./components/ModifyPluralkitSystem";
 
 type Components = Record<string, React.FC<any>>;
 
@@ -285,7 +285,7 @@ export const modalController = new ModalControllerExtended({
     mfa_recovery: MFARecovery,
     mfa_enable_totp: MFAEnableTOTP,
     modify_account: ModifyAccount,
-    modify_pkid: ModifyPluralkitId,
+    modify_pk_sys: ModifyPluralkitSystem,
     notify: Notify,
     onboarding: OnboardingModal,
     out_of_date: OutOfDate,

@@ -16,7 +16,7 @@ export default class Nonsense {
 
     constructor(state: State) {
         this.state = state;
-        this.pluralkit = new PKAPI();
+        this.pluralkit = new PKAPI({token: this.state.settings.get("nonsense:system:token") ?? ""});
         this.pkMemberCache = new Map<string, Member>();
         this.pkSystemCache = new Map<string, System>();
     }
@@ -48,11 +48,16 @@ export default class Nonsense {
     }
 
     async getMasquerade(content: string): Promise<[Masquerade, string]> {
-        if (!this.state.settings.get("nonsense:enabled") || (this.state.settings.get("nonsense:systemid") ?? "") == "") {
+        if (!this.state.settings.get("nonsense:enabled") || (this.state.settings.get("nonsense:system:id") ?? "") == "") {
             return [{},content];
         }
 
-        const system = await this.getPkSystem(this.state.settings.get("nonsense:systemid")!)!;
+        if (this.state.settings.get("nonsense:proxy:escape") && content.startsWith("\\")) {
+            return [{}, content.substring(1).trim()];
+        }
+
+        const systemId = this.state.settings.get("nonsense:system:id")!;
+        const system = await this.getPkSystem(systemId)!;
 
         for (const memberId of system.members!.keys()) {
             const member = await this.getPkMember(memberId);
@@ -62,13 +67,14 @@ export default class Nonsense {
                 return [{
                     name: member.name,
                     avatar: member.avatar_url
-                },c];
+                },c.trim()];
             }
         }
 
         // didn't match tags, try latch
-        const latch = this.state.settings.get("nonsense:latch");
-        if (latch && this.lastPkMemberId !== undefined) {
+        const latch = this.state.settings.get("nonsense:proxy:latch");
+        const front = this.state.settings.get("nonsense:proxy:front");
+        if (latch && !front && this.lastPkMemberId !== undefined) {
             const member = await this.getPkMember(this.lastPkMemberId);
             {
                 return [{
@@ -78,6 +84,29 @@ export default class Nonsense {
             }
         }
 
+        // ok, finally try front
+        if (front) {
+            // manually get the system, because who knows how old the cache is
+            // todo: remove this once we have an expiring cache
+            const sw = await this.pluralkit.getFronters({system: systemId});
+            console.log(sw)
+            // I'm new to TypeScript, but even so, this feels bad.
+            // todo: cleanup
+            let mem: Member | undefined;
+            if (sw.members?.values() !== undefined) { // terrible way to check types
+                mem = (sw.members as Map<string, Member>).values().next().value;
+            } else {
+                mem = await this.getPkMember((sw.members as string[])[0]);
+            }
+            if (mem !== undefined) {
+                return [{
+                    name: mem.name,
+                    avatar: mem.avatar_url
+                }, content];
+            }
+        }
+
+        // give up :(
         return [{},content];
     }
 

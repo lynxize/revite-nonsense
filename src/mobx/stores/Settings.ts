@@ -31,8 +31,11 @@ export interface ISettings {
     "appearance:theme:css": string;
 
     "nonsense:enabled": boolean;
-    "nonsense:latch": boolean;
-    "nonsense:systemid": string;
+    "nonsense:proxy:latch": boolean;
+    "nonsense:proxy:escape": boolean;
+    "nonsense:proxy:front": boolean;
+    "nonsense:system:id": string;
+    "nonsense:system:token": string;
 
     "security:trustedOrigins": string[];
 }
