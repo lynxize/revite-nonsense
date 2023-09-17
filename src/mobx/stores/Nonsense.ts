@@ -110,14 +110,19 @@ export default class Nonsense {
         return [{},content];
     }
 
+    /***
+     @return content, with the tag removed if a tag was matched.
+     */
      matchesTag(content: string, tags: ProxyTag[] | undefined): string | undefined {
-        if (tags == undefined) {
-            return undefined;
-        }
+        if (tags == undefined) return undefined;
+
         for (const tag of tags) {
-            if (content.startsWith(tag.prefix) || content.endsWith(tag.suffix)) {
-                // todo: properly strip prefix
-                return content.replace(tag.prefix, "").replace(tag.suffix, "");
+            // this kind of sucks and could be improved
+            if (content.startsWith(tag.prefix)) {
+                return content.substring(tag.prefix.length);
+            }
+            if (content.endsWith(tag.suffix)) {
+                return content.substring(0, content.length - tag.suffix.length);
             }
         }
 
