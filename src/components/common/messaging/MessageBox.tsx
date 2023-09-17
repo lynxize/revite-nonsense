@@ -407,16 +407,17 @@ export default observer(({ channel }: Props) => {
     }
 
     async function getMasquerade(content: string): Promise<[Masquerade, string]> {
-        if (!state.settings.get("nonsense:enabled")) {
+        if (!state.settings.get("nonsense:enabled") || (state.settings.get("nonsense:systemid") ?? "") == "") {
             return [{},content];
         }
-
-        const latch = state.settings.get("nonsense:latch");
 
         const systemId = state.settings.get("nonsense:systemid")!;
         if (!state.pkSystemCache.has(systemId)) {
             const system = await state.pluralkit.getSystem({system:systemId});
             system.members = await state.pluralkit.getMembers({system:systemId});
+            for (const [id, member] of system.members) {
+                state.pkMemberCache.set(id, member);
+            }
 
             state.pkSystemCache.set(systemId, system);
         }
@@ -435,6 +436,7 @@ export default observer(({ channel }: Props) => {
         }
 
         // didn't match tags, try latch
+        const latch = state.settings.get("nonsense:latch");
         if (latch && state.lastPkMemberId !== undefined) {
             const member = await state.getPkMember(state.lastPkMemberId);
             {
