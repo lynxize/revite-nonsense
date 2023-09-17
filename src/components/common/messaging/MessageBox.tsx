@@ -329,7 +329,7 @@ export default observer(({ channel }: Props) => {
         if (uploadState.type === "attached") return sendFile(c);
         if (c.length === 0) return;
 
-        const [masquerade, content] = await getMasquerade(c)
+        const [masquerade, content] = await state.nonsense.getMasquerade(c)
         // state.draft.set(channel._id, { content, masquerade }) // todo: something like this might be able to fix the flash
 
         internalEmit("NewMessages", "hide");
@@ -404,64 +404,6 @@ export default observer(({ channel }: Props) => {
                 state.queue.fail(nonce, takeError(error));
             }
         }
-    }
-
-    async function getMasquerade(content: string): Promise<[Masquerade, string]> {
-        if (!state.settings.get("nonsense:enabled") || (state.settings.get("nonsense:systemid") ?? "") == "") {
-            return [{},content];
-        }
-
-        const systemId = state.settings.get("nonsense:systemid")!;
-        if (!state.pkSystemCache.has(systemId)) {
-            const system = await state.pluralkit.getSystem({system:systemId});
-            system.members = await state.pluralkit.getMembers({system:systemId});
-            for (const [id, member] of system.members) {
-                state.pkMemberCache.set(id, member);
-            }
-
-            state.pkSystemCache.set(systemId, system);
-        }
-        const system = state.pkSystemCache.get(systemId)!;
-
-        for (const memberId of system.members!.keys()) {
-            const member = await state.getPkMember(memberId);
-            const c = matchesTag(content, member.proxy_tags);
-            if (c !== undefined) {
-                state.lastPkMemberId = member.id;
-                return [{
-                    name: member.name,
-                    avatar: member.avatar_url
-                },c];
-            }
-        }
-
-        // didn't match tags, try latch
-        const latch = state.settings.get("nonsense:latch");
-        if (latch && state.lastPkMemberId !== undefined) {
-            const member = await state.getPkMember(state.lastPkMemberId);
-            {
-                return [{
-                    name: member.name,
-                    avatar: member.avatar_url
-                },content];
-            }
-        }
-
-        return [{},content];
-    }
-
-    function matchesTag(content: string, tags: ProxyTag[] | undefined): string | undefined {
-        if (tags == undefined) {
-            return undefined;
-        }
-        for (const tag of tags) {
-            if (content.startsWith(tag.prefix) || content.endsWith(tag.suffix)) {
-                // todo: properly strip prefix
-                return content.replace(tag.prefix, "").replace(tag.suffix, "");
-            }
-        }
-
-        return undefined;
     }
 
     /**
