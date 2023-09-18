@@ -1,43 +1,41 @@
-# Revite
+# Revite - Nonsense
 
-## Description
+Modified version of [Revite](https://github.com/revoltchat/revite), the web client for [Revolt](https://revolt.chat/), adding [PluralKit](https://pluralkit.me/)-like message proxying through the use of Revolt's Masquerade feature.
 
-This is the web client for Revolt, which is also available live at [app.revolt.chat](https://app.revolt.chat).
+## FAQ
+### Why is everything called Nonsense?
+Uh, I suck at names, okay? Suggestions are welcome.
 
-## Pending Rewrite
+### Why not a Plugin?
+Revite's plugin API is very much incomplete, and isn't exactly... usable. As far as I know, this likely won't change, as the Revolt frontend is being rewritten. 
 
-The following code is pending a partial or full rewrite:
+Also, I have almost no experience with TypeScript and any sort of frontend work in general, so modifying the base code is just plain easier. It's not like Revite is getting major frequent updates anyway, so it should be straightforward to keep up to date.
 
--   `src/components`: components are being migrated to [revoltchat/components](https://github.com/revoltchat/components)
--   `src/styles`: needs to be migrated to [revoltchat/components](https://github.com/revoltchat/components)
--   `src/lib`: this needs to be organised
+### Can I join the same servers?
+Yes! This is 100% just a client, it uses the same, standard Revolt backend. All the necessary features to make this work already exist in the normal backend.
 
-## Stack
+Plus, everything is toggleable and disabled by default, so you can use it as if it was normal Revite.
 
--   [Preact](https://preactjs.com/)
--   [Vite](https://vitejs.dev/)
+### How do I use it?
+You can run it yourself, just like normal Revite, or use the hosted instance [here](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
+The settings should be pretty self-explanatory.
 
-## Submodule Hint
+### Why am I getting `MISSINGPERMISSION` when I try to send a message?
+You need to have the "Masquerade" permission in order for it to work. 
 
-This project contains submodules. Run `git submodule init` after you clone this repository to initialize the submodules.
-It is also recommended to run `git submodule update` after you pull from upstream.
+### Future plans?
+- Add i18n support for all the additions, as currently everything is just raw strings.
+- Add some sort of `pk;sw` replacement.
+- Improve PK API result caching, as currently it's pretty... terrible.
+- Per-server proxy settings.
+- Maybe find a way to hack together settings sync
+- Eventually, once the Revolt client rewrite is usable, port to it.  
 
-## Resources
-
-### Revite
-
--   [Revite Issue Board](https://github.com/revoltchat/revite/issues)
--   [Google Drive Folder with Screenshots](https://drive.google.com/drive/folders/1Ckhl7_9OTTaKzyisrWHzZw1hHj55JwhD)
-
-### Revolt
-
--   [Revolt Project Board](https://github.com/revoltchat/revolt/discussions) (Submit feature requests here)
--   [Revolt Testers Server](https://app.revolt.chat/invite/Testers)
--   [Contribution Guide](https://developers.revolt.chat/contributing)
+Help/contributions appreciated!
 
 ## Quick Start
 
-Get revite up and running locally.
+Get Revite up and running locally.
 
 ```
 git clone --recursive https://github.com/revoltchat/revite
@@ -47,24 +45,5 @@ yarn build:deps
 yarn dev
 ```
 
-You can now access the client at http://local.revolt.chat:3000.
-
-## CLI Commands
-
-| Command                                 | Description                                  |
-| --------------------------------------- | -------------------------------------------- |
-| `yarn pull`                             | Setup assets required for Revite.            |
-| `yarn dev`                              | Start the Revolt client in development mode. |
-| `yarn build`                            | Build the Revolt client.                     |
-| `yarn build:deps`                       | Build external dependencies.                 |
-| `yarn preview`                          | Start a local server with the built client.  |
-| `yarn lint`                             | Run ESLint on the client.                    |
-| `yarn fmt`                              | Run Prettier on the client.                  |
-| `yarn typecheck`                        | Run TypeScript type checking on the client.  |
-| `yarn start`                            | Start a local sirv server with built client. |
-| `yarn start:inject`                     | Inject a given API URL and start server.     |
-| `yarn lint \| egrep "no-literals" -B 1` | Scan for untranslated strings.               |
-
 ## License
-
 Revite is licensed under the [GNU Affero General Public License v3.0](https://github.com/revoltchat/revite/blob/master/LICENSE).
