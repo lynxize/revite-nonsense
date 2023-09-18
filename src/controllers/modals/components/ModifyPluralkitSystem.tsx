@@ -40,7 +40,7 @@ export default function ModifyPluralkitSystem({
                 // manually update token (cringe) // todo: remove, there has to be a better way
                 state.nonsense.pluralkit = new PKAPI({token: (token as string)})
 
-                if (await state.nonsense.getPkSystem(id as string) === undefined) {
+                if (id != "" && await state.nonsense.getPkSystem(id as string) === undefined) {
                     modalController.push({
                         type: "notify",
                         title: "Invalid ID",
