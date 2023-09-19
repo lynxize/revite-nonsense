@@ -1,6 +1,8 @@
 import { HappyBeaming, Send, ShieldX } from "@styled-icons/boxicons-solid";
 import Axios, { CancelTokenSource } from "axios";
 import { observer } from "mobx-react-lite";
+import { ProxyTag } from "pkapi.js";
+import { Masquerade } from "revolt-api";
 import { Channel } from "revolt.js";
 import styled, { css } from "styled-components/macro";
 import { ulid } from "ulid";
@@ -45,8 +47,6 @@ import AutoComplete, { useAutoComplete } from "../AutoComplete";
 import { PermissionTooltip } from "../Tooltip";
 import FilePreview from "./bars/FilePreview";
 import ReplyBar from "./bars/ReplyBar";
-import {Masquerade} from "revolt-api";
-import {ProxyTag} from "pkapi.js";
 
 type Props = {
     channel: Channel;
@@ -329,7 +329,7 @@ export default observer(({ channel }: Props) => {
         if (uploadState.type === "attached") return sendFile(c);
         if (c.length === 0) return;
 
-        const [masquerade, content] = await state.nonsense.getMasquerade(c)
+        const [masquerade, content] = await state.nonsense.getMasquerade(c);
         // state.draft.set(channel._id, { content, masquerade }) // todo: something like this might be able to fix the flash
 
         internalEmit("NewMessages", "hide");
@@ -398,7 +398,7 @@ export default observer(({ channel }: Props) => {
                     content,
                     nonce,
                     replies,
-                    masquerade
+                    masquerade,
                 });
             } catch (error) {
                 state.queue.fail(nonce, takeError(error));

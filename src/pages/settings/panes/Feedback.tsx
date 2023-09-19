@@ -12,11 +12,10 @@ export function Feedback() {
         <Column>
             <Tip palette="warning">
                 <span>
-                    This is a modified version of Revite!
-                    Keep in mind that issues may not be the fault of Revolt,
-                    and should only be reported to them if they're reproducible with unmodified Revite.
-
-                    You can find the issue tracker for this fork {" "}
+                    This is a modified version of Revite! Keep in mind that
+                    issues may not be the fault of Revolt, and should only be
+                    reported to them if they're reproducible with unmodified
+                    Revite. You can find the issue tracker for this fork{" "}
                     <a
                         style={{ color: "inherit", fontWeight: "600" }}
                         href="https://github.com/lynxize/revite-nonsense/issues/"

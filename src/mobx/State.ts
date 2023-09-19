@@ -118,7 +118,6 @@ export default class State {
         }
     }
 
-
     /**
      * Temporarily ignore updates to a key.
      * @param key Key to ignore

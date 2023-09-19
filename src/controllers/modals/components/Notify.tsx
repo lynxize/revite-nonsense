@@ -6,7 +6,11 @@ import { noopTrue } from "../../../lib/js";
 
 import { ModalProps } from "../types";
 
-export default function Notify({ title, content, ...props }: ModalProps<"notify">) {
+export default function Notify({
+    title,
+    content,
+    ...props
+}: ModalProps<"notify">) {
     return (
         <Modal
             {...props}
@@ -16,7 +20,7 @@ export default function Notify({ title, content, ...props }: ModalProps<"notify"
                     onClick: noopTrue,
                     confirmation: true,
                     children: <Text id="app.special.modals.actions.ok" />,
-                }
+                },
             ]}>
             {content}
         </Modal>

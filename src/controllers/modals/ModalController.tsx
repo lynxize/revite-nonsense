@@ -41,6 +41,7 @@ import MFAFlow from "./components/MFAFlow";
 import MFARecovery from "./components/MFARecovery";
 import ModifyAccount from "./components/ModifyAccount";
 import ModifyDisplayname from "./components/ModifyDisplayname";
+import ModifyPluralkitSystem from "./components/ModifyPluralkitSystem";
 import Notify from "./components/Notify";
 import OutOfDate from "./components/OutOfDate";
 import PendingFriendRequests from "./components/PendingFriendRequests";
@@ -55,7 +56,6 @@ import UserPicker from "./components/UserPicker";
 import { OnboardingModal } from "./components/legacy/Onboarding";
 import { UserProfile } from "./components/legacy/UserProfile";
 import { Modal } from "./types";
-import ModifyPluralkitSystem from "./components/ModifyPluralkitSystem";
 
 type Components = Record<string, React.FC<any>>;
 

@@ -1,11 +1,13 @@
+import { PKAPI } from "pkapi.js";
+
 import { Text } from "preact-i18n";
 
 import { ModalForm } from "@revoltchat/ui";
 
+import { useApplicationState } from "../../../mobx/State";
+
+import { modalController } from "../ModalController";
 import { ModalProps } from "../types";
-import {useApplicationState} from "../../../mobx/State";
-import {PKAPI} from "pkapi.js";
-import {modalController} from "../ModalController";
 
 /**
  * Modify PluralKit ID modal
@@ -33,24 +35,30 @@ export default function ModifyPluralkitSystem({
                     field: "System ID",
                 },
                 token: {
-                    field: "Token (Optional)"
-                }
+                    field: "Token (Optional)",
+                },
             }}
-            callback={async ({id, token}) => {
+            callback={async ({ id, token }) => {
                 // manually update token (cringe) // todo: remove, there has to be a better way
-                state.nonsense.pluralkit = new PKAPI({token: (token as string)})
+                state.nonsense.pluralkit = new PKAPI({
+                    token: token as string,
+                });
 
-                if (id != "" && await state.nonsense.getPkSystem(id as string) === undefined) {
+                if (
+                    id != "" &&
+                    (await state.nonsense.getPkSystem(id as string)) ===
+                        undefined
+                ) {
                     modalController.push({
                         type: "notify",
                         title: "Invalid ID",
-                        content: "PluralKit system not found"
+                        content: "PluralKit system not found",
                     });
                     return;
                 }
 
                 settings.set("nonsense:system:id", id as string);
-                settings.set("nonsense:system:token", token as string)
+                settings.set("nonsense:system:token", token as string);
             }}
             submit={{
                 children: <Text id="app.special.modals.actions.save" />,

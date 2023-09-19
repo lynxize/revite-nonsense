@@ -55,12 +55,12 @@ import { Feedback } from "./panes/Feedback";
 import { Languages } from "./panes/Languages";
 import { MyBots } from "./panes/MyBots";
 import { Native } from "./panes/Native";
+import { Nonsense } from "./panes/Nonsense";
 import { Notifications } from "./panes/Notifications";
 import { PluginsPage } from "./panes/Plugins";
 import { Profile } from "./panes/Profile";
 import { Sessions } from "./panes/Sessions";
 import { Sync } from "./panes/Sync";
-import { Nonsense } from "./panes/Nonsense";
 
 const AccountHeader = styled.div`
     display: flex;

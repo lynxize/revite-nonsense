@@ -1,5 +1,6 @@
-import {Member, PKAPI, ProxyTag, System} from "pkapi.js";
-import {Masquerade} from "revolt-api";
+import { Member, PKAPI, ProxyTag, System } from "pkapi.js";
+import { Masquerade } from "revolt-api";
+
 import State from "../State";
 
 export default class Nonsense {
@@ -15,7 +16,9 @@ export default class Nonsense {
 
     constructor(state: State) {
         this.state = state;
-        this.pluralkit = new PKAPI({token: this.state.settings.get("nonsense:system:token") ?? ""});
+        this.pluralkit = new PKAPI({
+            token: this.state.settings.get("nonsense:system:token") ?? "",
+        });
         this.pkMemberCache = new Map<string, Member>();
         this.pkSystemCache = new Map<string, System>();
     }
@@ -25,11 +28,10 @@ export default class Nonsense {
             return this.pkMemberCache.get(id)!;
         }
         try {
-            const member = this.pluralkit.getMember({member: id});
+            const member = this.pluralkit.getMember({ member: id });
             this.pkMemberCache.set(id, await member);
             return member;
-        }
-        catch (e) {
+        } catch (e) {
             console.error(e);
             return undefined;
         }
@@ -40,7 +42,7 @@ export default class Nonsense {
             try {
                 const system = await this.pluralkit.getSystem({
                     system: id,
-                    fetch: ["members"]
+                    fetch: ["members"],
                 });
 
                 for (const [id, member] of system.members!) {
@@ -48,21 +50,26 @@ export default class Nonsense {
                 }
 
                 this.pkSystemCache.set(id, system);
-            }
-            catch (e) {
-                console.error(e)
-                return undefined
+            } catch (e) {
+                console.error(e);
+                return undefined;
             }
         }
         return this.pkSystemCache.get(id)!;
     }
 
     async getMasquerade(content: string): Promise<[Masquerade, string]> {
-        if (!this.state.settings.get("nonsense:enabled") || (this.state.settings.get("nonsense:system:id") ?? "") == "") {
-            return [{},content];
+        if (
+            !this.state.settings.get("nonsense:enabled") ||
+            (this.state.settings.get("nonsense:system:id") ?? "") == ""
+        ) {
+            return [{}, content];
         }
 
-        if (this.state.settings.get("nonsense:proxy:escape") && content.startsWith("\\")) {
+        if (
+            this.state.settings.get("nonsense:proxy:escape") &&
+            content.startsWith("\\")
+        ) {
             return [{}, content.substring(1).trim()];
         }
 
@@ -74,10 +81,13 @@ export default class Nonsense {
             const c = this.matchesTag(content, member.proxy_tags);
             if (c !== undefined) {
                 this.lastPkMemberId = member.id;
-                return [{
-                    name: member.name,
-                    avatar: member.avatar_url
-                },c.trim()];
+                return [
+                    {
+                        name: member.name,
+                        avatar: member.avatar_url,
+                    },
+                    c.trim(),
+                ];
             }
         }
 
@@ -87,10 +97,13 @@ export default class Nonsense {
         if (latch && !front && this.lastPkMemberId !== undefined) {
             const member = (await this.getPkMember(this.lastPkMemberId))!;
             {
-                return [{
-                    name: member.name,
-                    avatar: member.avatar_url
-                },content];
+                return [
+                    {
+                        name: member.name,
+                        avatar: member.avatar_url,
+                    },
+                    content,
+                ];
             }
         }
 
@@ -98,33 +111,40 @@ export default class Nonsense {
         if (front) {
             // manually get the system, because who knows how old the cache is
             // todo: remove this once we have an expiring cache
-            const sw = await this.pluralkit.getFronters({system: systemId});
+            const sw = await this.pluralkit.getFronters({ system: systemId });
 
             // I'm new to TypeScript, but even so, this feels bad.
             // todo: cleanup
             let mem: Member | undefined;
-            if (sw.members?.values() !== undefined) { // terrible way to check types
+            if (sw.members?.values() !== undefined) {
+                // terrible way to check types
                 mem = (sw.members as Map<string, Member>).values().next().value;
             } else {
                 mem = await this.getPkMember((sw.members as string[])[0]);
             }
 
             if (mem !== undefined) {
-                return [{
-                    name: mem.name,
-                    avatar: mem.avatar_url
-                }, content];
+                return [
+                    {
+                        name: mem.name,
+                        avatar: mem.avatar_url,
+                    },
+                    content,
+                ];
             }
         }
 
         // give up :(
-        return [{},content];
+        return [{}, content];
     }
 
     /***
      @return content, with the tag removed if a tag was matched.
      */
-     matchesTag(content: string, tags: ProxyTag[] | undefined): string | undefined {
+    matchesTag(
+        content: string,
+        tags: ProxyTag[] | undefined,
+    ): string | undefined {
         if (tags == undefined) return undefined;
 
         for (const tag of tags) {

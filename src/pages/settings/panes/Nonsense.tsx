@@ -2,13 +2,13 @@ import { observer } from "mobx-react-lite";
 
 import styles from "./Panes.module.scss";
 
-import {CategoryButton, Checkbox, Column} from "@revoltchat/ui";
+import { CategoryButton, Checkbox, Column } from "@revoltchat/ui";
 
-import {useApplicationState} from "../../../mobx/State";
-import {modalController} from "../../../controllers/modals/ModalController";
+import { useApplicationState } from "../../../mobx/State";
+
+import { modalController } from "../../../controllers/modals/ModalController";
 
 export const Nonsense = observer(() => {
-
     const s = useApplicationState();
 
     return (
@@ -34,35 +34,43 @@ export const Nonsense = observer(() => {
                         modalController.push({
                             type: "notify",
                             title: "Success",
-                            content: "PluralKit member cache cleared"
+                            content: "PluralKit member cache cleared",
                         });
                     }}>
                     Clear Cache
                 </CategoryButton>
                 <Checkbox
                     title="Enable Nonsense"
-                    value = { s.settings.get("nonsense:enabled")! }
+                    value={s.settings.get("nonsense:enabled")!}
                     description="Enable Message Masquerades"
-                    onChange={(state) => s.settings.set("nonsense:enabled", state)}
+                    onChange={(state) =>
+                        s.settings.set("nonsense:enabled", state)
+                    }
                 />
                 <h3>{"Proxy Settings"}</h3>
                 <Checkbox
                     title="Latch Mode"
-                    value = { s.settings.get("nonsense:proxy:latch")! }
+                    value={s.settings.get("nonsense:proxy:latch")!}
                     description="Masquerade messages with the last used member by default"
-                    onChange={(state) => s.settings.set("nonsense:proxy:latch", state)}
+                    onChange={(state) =>
+                        s.settings.set("nonsense:proxy:latch", state)
+                    }
                 />
                 <Checkbox
                     title="Front Mode"
-                    value = { s.settings.get("nonsense:proxy:front")! }
+                    value={s.settings.get("nonsense:proxy:front")!}
                     description="Masquerade messages with the current fronter by default (Overrides latch)"
-                    onChange={(state) => s.settings.set("nonsense:proxy:front", state)}
+                    onChange={(state) =>
+                        s.settings.set("nonsense:proxy:front", state)
+                    }
                 />
                 <Checkbox
                     title="Backslash Escape"
-                    value = { s.settings.get("nonsense:proxy:escape")! }
+                    value={s.settings.get("nonsense:proxy:escape")!}
                     description="Type \ before a message to not masquerade"
-                    onChange={(state) => s.settings.set("nonsense:proxy:escape", state)}
+                    onChange={(state) =>
+                        s.settings.set("nonsense:proxy:escape", state)
+                    }
                 />
             </Column>
         </div>
