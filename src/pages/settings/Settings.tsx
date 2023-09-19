@@ -282,7 +282,7 @@ export default observer(() => {
                         <Text id="app.special.modals.changelogs.title" />
                     </ButtonItem>
                     <a
-                        href="https://github.com/revoltchat"
+                        href="https://github.com/lynxize/revite-nonsense"
                         target="_blank"
                         rel="noreferrer">
                         <ButtonItem compact>
@@ -319,7 +319,7 @@ export default observer(() => {
                             <a
                                 href={
                                     GIT_BRANCH !== "DETACHED"
-                                        ? `https://github.com/revoltchat/revite/tree/${GIT_BRANCH}`
+                                        ? `https://github.com/lynxize/revite-nonsense/tree/${GIT_BRANCH}`
                                         : undefined
                                 }
                                 target="_blank"

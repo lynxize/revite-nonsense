@@ -38,8 +38,10 @@ Help/contributions appreciated!
 Get Revite up and running locally.
 
 ```
-git clone --recursive https://github.com/revoltchat/revite
+git clone --recursive https://github.com/lynxize/revite-nonsense
 cd revite
+git submodule init
+git submodule update
 yarn
 yarn build:deps
 yarn dev

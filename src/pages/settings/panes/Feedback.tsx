@@ -12,16 +12,19 @@ export function Feedback() {
         <Column>
             <Tip palette="warning">
                 <span>
-                    We are currently rebuilding the client from scratch. You can{" "}
+                    This is a modified version of Revite!
+                    Keep in mind that issues may not be the fault of Revolt,
+                    and should only be reported to them if they're reproducible with unmodified Revite.
+
+                    You can find the issue tracker for this fork {" "}
                     <a
                         style={{ color: "inherit", fontWeight: "600" }}
-                        href="https://github.com/revoltchat/frontend/issues/14"
+                        href="https://github.com/lynxize/revite-nonsense/issues/"
                         target="_blank"
                         rel="noreferrer">
-                        view our progress here
+                        on GitHub here
                     </a>
-                    ; in the meantime, we are only accepting and fixing critical
-                    bugs with the current client.
+                    .
                 </span>
             </Tip>
             <div className={styles.feedback}>
