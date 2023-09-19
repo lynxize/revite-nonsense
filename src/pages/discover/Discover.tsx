@@ -5,7 +5,7 @@ import styled, { css } from "styled-components/macro";
 
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 
-import { Header, Preloader } from "@revoltchat/ui";
+import {Header, Preloader, Tip} from "@revoltchat/ui";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
@@ -79,7 +79,7 @@ const Loader = styled.div`
 const TRUSTED_HOSTS = [
     "local.revolt.chat:3000",
     "local.revolt.chat:3001",
-    "rvlt.gg",
+    "rvlt.gg"
 ];
 
 const REMOTE = "https://rvlt.gg";
@@ -162,6 +162,26 @@ export default function Discover() {
 
     return (
         <Container>
+            <Tip palette="warning">
+                <div>
+                    The Discover page is broken with revite-nonsense. See {" "}
+                    <a
+                        style={{ color: "inherit", fontWeight: "600" }}
+                        href="https://github.com/lynxize/revite-nonsense/issues/2"
+                        target="_blank"
+                        rel="noreferrer">
+                        this issue
+                    </a>
+                    . Visit {" "}
+                    <a
+                        style={{ color: "inherit", fontWeight: "600" }}
+                        href="https://rvlt.gg/discover/"
+                        target="_blank"
+                        rel="noreferrer">
+                        https://rvlt.gg/discover/
+                    </a> instead.
+                </div>
+            </Tip>
             {isTouchscreenDevice && (
                 <Header palette="primary" withTransparency>
                     <Compass size={27} />
