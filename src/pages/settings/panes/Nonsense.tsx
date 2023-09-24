@@ -29,12 +29,12 @@ export const Nonsense = observer(() => {
                 <CategoryButton
                     description={"Clear PK Member Cache"}
                     onClick={() => {
-                        s.nonsense.pkMemberCache.clear();
-                        s.nonsense.pkSystemCache.clear();
+                        s.nonsense.pkMemberCache.flushAll();
+                        s.nonsense.pkSystemCache.flushAll();
                         modalController.push({
                             type: "notify",
                             title: "Success",
-                            content: "PluralKit member cache cleared",
+                            content: "PluralKit cache cleared",
                         });
                     }}>
                     Clear Cache

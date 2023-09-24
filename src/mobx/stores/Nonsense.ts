@@ -2,6 +2,8 @@ import { Member, PKAPI, ProxyTag, System } from "pkapi.js";
 import { Masquerade } from "revolt-api";
 
 import State from "../State";
+import NodeCache from "node-cache";
+import {modalController} from "../../controllers/modals/ModalController";
 
 export default class Nonsense {
     private state: State;
@@ -10,17 +12,20 @@ export default class Nonsense {
     // this exists mostly just as access for pk stuff:tm:
     pluralkit: PKAPI;
     lastPkMemberId: string | undefined;
-    // todo: replace with an actual expiring cache
-    pkMemberCache: Map<string, Member>;
-    pkSystemCache: Map<string, System>;
+    pkMemberCache: NodeCache;
+    pkSystemCache: NodeCache;
 
     constructor(state: State) {
         this.state = state;
         this.pluralkit = new PKAPI({
             token: this.state.settings.get("nonsense:system:token") ?? "",
         });
-        this.pkMemberCache = new Map<string, Member>();
-        this.pkSystemCache = new Map<string, System>();
+        this.pkSystemCache = new NodeCache({
+            stdTTL: 30, // rather low for the sake of front mode
+        })
+        this.pkMemberCache = new NodeCache({
+            stdTTL: 120,
+        })
     }
 
     async getPkMember(id: string): Promise<Member | undefined> {
@@ -40,10 +45,23 @@ export default class Nonsense {
     async getPkSystem(id: string): Promise<System | undefined> {
         if (!this.pkSystemCache.has(id)) {
             try {
-                const system = await this.pluralkit.getSystem({
+                const system: System | undefined = (await this.pluralkit.getSystem({
                     system: id,
-                    fetch: ["members"],
-                });
+                    fetch: ["members", "fronters"],
+                }).catch(() => {
+                    modalController.push({
+                        type: "notify",
+                        title: "Error",
+                        content: "Failed to get PluralKit system. " +
+                            "Be sure to enter your token in settings if members or front history are set to private.",
+                    });
+                    return undefined;
+                }));
+
+                // there's probably a more idiomatic way to do this lol
+                if (system === undefined) {
+                    return undefined;
+                }
 
                 for (const [id, member] of system.members!) {
                     this.pkMemberCache.set(id, member);
@@ -75,6 +93,9 @@ export default class Nonsense {
 
         const systemId = this.state.settings.get("nonsense:system:id")!;
         const system = await this.getPkSystem(systemId);
+        if (system == undefined) {
+            return [{}, content]; // not fond of the [{}. content] spam, there's gotta be a better way
+        }
 
         for (const memberId of system!.members!.keys()) {
             const member = (await this.getPkMember(memberId))!;
@@ -109,9 +130,7 @@ export default class Nonsense {
 
         // ok, finally try front
         if (front) {
-            // manually get the system, because who knows how old the cache is
-            // todo: remove this once we have an expiring cache
-            const sw = await this.pluralkit.getFronters({ system: systemId });
+            const sw = (await this.getPkSystem(systemId))!.fronters!;
 
             // I'm new to TypeScript, but even so, this feels bad.
             // todo: cleanup
