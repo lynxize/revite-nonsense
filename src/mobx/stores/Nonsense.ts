@@ -76,25 +76,25 @@ export default class Nonsense {
         return this.pkSystemCache.get(id)!;
     }
 
-    async getMasquerade(content: string): Promise<[Masquerade, string]> {
+    async getMasquerade(content: string): Promise<[Masquerade|undefined, string]> {
         if (
             !this.state.settings.get("nonsense:enabled") ||
             (this.state.settings.get("nonsense:system:id") ?? "") == ""
         ) {
-            return [{}, content];
+            return [undefined, content];
         }
 
         if (
             this.state.settings.get("nonsense:proxy:escape") &&
             content.startsWith("\\")
         ) {
-            return [{}, content.substring(1).trim()];
+            return [undefined, content.substring(1).trim()];
         }
 
         const systemId = this.state.settings.get("nonsense:system:id")!;
         const system = await this.getPkSystem(systemId);
         if (system == undefined) {
-            return [{}, content]; // not fond of the [{}. content] spam, there's gotta be a better way
+            return [undefined, content]; // not fond of the [undefined, content] spam, there's gotta be a better way
         }
 
         for (const memberId of system!.members!.keys()) {
@@ -154,7 +154,7 @@ export default class Nonsense {
         }
 
         // give up :(
-        return [{}, content];
+        return [undefined, content];
     }
 
     /***
