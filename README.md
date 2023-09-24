@@ -4,7 +4,7 @@ Modified version of [Revite](https://github.com/revoltchat/revite), the web clie
 
 ## FAQ
 ### Why is everything called Nonsense?
-Uh, I suck at names, okay? Suggestions are welcome.
+Uh, I suck at names, okay? Suggestions are definitely welcome.
 
 ### Why not a Plugin?
 Revite's plugin API is very much incomplete, and isn't exactly... usable. As far as I know, this likely won't change, as the Revolt frontend is being rewritten. 
@@ -23,10 +23,12 @@ The settings should be pretty self-explanatory.
 ### Why am I getting `MISSINGPERMISSION` when I try to send a message?
 You need to have the "Masquerade" permission in order for it to work. 
 
+### Why is there the occasional hitch/delay when sending a message?
+Blame the PluralKit api. There's probably some better things we can do on the client, so feel free to take a look!
+
 ### Future plans?
 - Add i18n support for all the additions, as currently everything is just raw strings.
 - Add some sort of `pk;sw` replacement.
-- Improve PK API result caching, as currently it's pretty... terrible.
 - Per-server proxy settings.
 - Maybe find a way to hack together settings sync
 - Eventually, once the Revolt client rewrite is usable, port to it.  
