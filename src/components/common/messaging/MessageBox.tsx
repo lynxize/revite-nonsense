@@ -387,6 +387,7 @@ export default observer(({ channel }: Props) => {
                 channel: channel._id,
                 author: client.user!._id,
 
+                masquerade: masquerade ?? null,
                 content,
                 replies,
             });

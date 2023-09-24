@@ -5,9 +5,10 @@ import {
     makeAutoObservable,
     observable,
 } from "mobx";
-import { Message } from "revolt.js";
+import {Message, Nullable} from "revolt.js";
 
 import Store from "../interfaces/Store";
+import {Masquerade} from "revolt-api";
 
 export enum QueueStatus {
     SENDING = "sending",
@@ -22,6 +23,7 @@ export interface Reply {
 export type QueuedMessageData = {
     _id: string;
     author: string;
+    masquerade: Nullable<Masquerade>
     channel: string;
 
     content: string;

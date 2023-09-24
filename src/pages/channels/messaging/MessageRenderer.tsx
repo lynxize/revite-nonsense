@@ -210,7 +210,7 @@ export default observer(({ last_id, renderer, highlight }: Props) => {
                 compare(
                     msg.id,
                     userId!,
-                    null,
+                    msg.data.masquerade,
                     previous._id,
                     previous.author_id,
                     previous.masquerade,
@@ -219,6 +219,7 @@ export default observer(({ last_id, renderer, highlight }: Props) => {
                 previous = {
                     _id: msg.id,
                     author_id: userId!,
+                    masquerade: msg.data.masquerade,
                 } as MessageI;
             }
 
