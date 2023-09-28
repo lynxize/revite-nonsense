@@ -329,8 +329,7 @@ export default observer(({ channel }: Props) => {
         if (uploadState.type === "attached") return sendFile(c);
         if (c.length === 0) return;
 
-        const [masquerade, content] = await state.nonsense.getMasquerade(c);
-        // state.draft.set(channel._id, { content, masquerade }) // todo: something like this might be able to fix the flash
+        const [masquerade, content] = await state.nonsense.getMasquerade(channel.server?._id, c);
 
         internalEmit("NewMessages", "hide");
         stopTyping();

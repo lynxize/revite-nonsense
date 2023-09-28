@@ -36,6 +36,7 @@ export interface ISettings {
     "nonsense:proxy:front": boolean;
     "nonsense:system:id": string;
     "nonsense:system:token": string;
+    "nonsense:disabled_servers": string[]; // todo: this might be better off not being a setting
 
     "security:trustedOrigins": string[];
 }

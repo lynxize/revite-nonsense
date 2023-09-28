@@ -14,13 +14,14 @@ import {
     InputBox,
     Modal,
     Row,
-    Message,
+    Message, Checkbox,
 } from "@revoltchat/ui";
 
 import { noop } from "../../../lib/js";
 
 import { FileUploader } from "../../client/jsx/legacy/FileUploads";
 import { ModalProps } from "../types";
+import { useApplicationState } from "../../../mobx/State";
 
 const Preview = styled(Centred)`
     flex-grow: 1;
@@ -45,6 +46,9 @@ export default observer(
                 },
             };
         }, []);
+
+        const state = useApplicationState();
+        const settings = state.settings;
 
         return (
             <Modal
@@ -131,6 +135,20 @@ export default observer(
                             </Preview>
                         </Column>
                     </Row>
+                    <Checkbox
+                        title="Disable Nonsense"
+                        value={settings.get("nonsense:disabled_servers")?.includes(member.server._id) ?? false}
+                        description="Force disable message masquerades in this server"
+                        onChange={(state) => {
+                            const server = member.server._id;
+                            let disabled = settings.get("nonsense:disabled_servers") ?? [];
+                            if (state && !disabled.includes(server)) disabled.push(server);
+                            else if (!state) {
+                                disabled = disabled.filter((id: string) => id !== server);
+                            }
+                            settings.set("nonsense:disabled_servers", disabled);
+                        }}
+                    />
                 </Column>
             </Modal>
         );

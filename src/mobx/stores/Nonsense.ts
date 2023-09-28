@@ -76,10 +76,15 @@ export default class Nonsense {
         return this.pkSystemCache.get(id)!;
     }
 
-    async getMasquerade(content: string): Promise<[Masquerade|undefined, string]> {
+    async getMasquerade(serverId: string | undefined, content: string): Promise<[Masquerade|undefined, string]> {
+        // initial checks to see if we even should masquerade
+        // todo: clean up and move elsewhere
         if (
             !this.state.settings.get("nonsense:enabled") ||
-            (this.state.settings.get("nonsense:system:id") ?? "") == ""
+            (this.state.settings.get("nonsense:system:id") ?? "") == "" ||
+            (
+                serverId !== undefined && this.state.settings.get("nonsense:disabled_servers")?.includes(serverId!)
+            )
         ) {
             return [undefined, content];
         }
