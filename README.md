@@ -18,10 +18,12 @@ Plus, everything is toggleable and disabled by default, so you can use it as if 
 
 ### How do I use it?
 You can run it yourself, just like normal Revite, or use the hosted instance [here](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
-The settings should be pretty self-explanatory.
+The settings menu should be pretty self-explanatory.
+
+You can disable message masquerades per-server by navigating to the Server Identity settings. 
 
 ### Why am I getting `MISSINGPERMISSION` when I try to send a message?
-You need to have the "Masquerade" permission in order for it to work. 
+You need to have the "Masquerade" permission in order for it to work.
 
 ### Why is there the occasional hitch/delay when sending a message?
 Blame the PluralKit api. There's probably some better things we can do on the client, so feel free to take a look!
@@ -29,7 +31,6 @@ Blame the PluralKit api. There's probably some better things we can do on the cl
 ### Future plans?
 - Add i18n support for all the additions, as currently everything is just raw strings.
 - Add some sort of `pk;sw` replacement.
-- Per-server proxy settings.
 - Maybe find a way to hack together settings sync
 - Eventually, once the Revolt client rewrite is usable, port to it.  
 
